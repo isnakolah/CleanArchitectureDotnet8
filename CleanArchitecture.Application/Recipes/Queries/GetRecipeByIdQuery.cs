@@ -2,7 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Queries;
 
-public record GetRecipeByIdQuery(int Id) 
+public record GetRecipeByIdQuery(int Id)
     : IRequest<RecipeVm>;
 
 public sealed class GetRecipeByIdQueryHandler(
@@ -14,7 +14,7 @@ public sealed class GetRecipeByIdQueryHandler(
     {
         var entity = await context.Recipes
             .ProjectTo<RecipeVm>(mapperCfg)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            .FirstOrDefaultAsync(recipe => recipe.Id == request.Id, cancellationToken);
 
         return entity!;
     }

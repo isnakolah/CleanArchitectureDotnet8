@@ -9,14 +9,14 @@ public sealed record CreateRecipeCommand(
         string Description,
         int PrepTime,
         int CookTime)
-    : IRequest<Result<RecipeVm>>;
+    : IRequest<IResult<RecipeVm>>;
 
 public sealed class CreateRecipeCommandHandler(
         IApplicationDbContext context,
         IMapper mapper) 
-    : IRequestHandler<CreateRecipeCommand, Result<RecipeVm>>
+    : IRequestHandler<CreateRecipeCommand, IResult<RecipeVm>>
 {
-    public async Task<Result<RecipeVm>> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
+    public async Task<IResult<RecipeVm>> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
     {
         var entity = new Recipe
         {
@@ -30,7 +30,7 @@ public sealed class CreateRecipeCommandHandler(
 
         await context.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<RecipeVm>(entity);
+        return IResult<RecipeVm>.Success(mapper.Map<RecipeVm>(entity));
     }
 }
 

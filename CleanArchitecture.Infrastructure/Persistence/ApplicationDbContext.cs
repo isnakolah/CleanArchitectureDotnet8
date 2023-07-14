@@ -12,6 +12,8 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<Recipe> Recipes => Set<Recipe>();
+    public DbSet<Ingredient> Ingredients => Set<Ingredient>();
+    public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
 
     public new async Task SaveChangesAsync(CancellationToken cancellationToken)
     {

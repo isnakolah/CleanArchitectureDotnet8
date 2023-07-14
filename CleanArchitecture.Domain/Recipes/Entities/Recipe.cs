@@ -7,4 +7,26 @@ public record Recipe
     public required string Description { get; set; }
     public required int PrepTime { get; set; }
     public required int CookTime { get; set; }
+    public ICollection<RecipeIngredient> Ingredients { get; private set; } = new List<RecipeIngredient>();
+    
+    public void AddIngredient(Ingredient ingredient, int quantity)
+    {
+        var recipeIngredient = new RecipeIngredient
+        {
+            Ingredient = ingredient,
+            Recipe = this,
+            Quantity = quantity,
+        };
+        Ingredients.Add(recipeIngredient);
+    }
+
+    public void RemoveIngredient(Ingredient ingredient)
+    {
+        var recipeIngredient = Ingredients.FirstOrDefault(x => x.Ingredient == ingredient);
+
+        if (recipeIngredient is not null)
+        {
+            Ingredients.Remove(recipeIngredient);
+        }
+    }
 }

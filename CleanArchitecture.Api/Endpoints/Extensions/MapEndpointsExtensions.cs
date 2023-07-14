@@ -46,6 +46,7 @@ internal static class MapEndpointsExtensions
                     .First(x => x.Name == "Template")
                     .GetValue(httpAttribute)
                     ?.ToString() ?? string.Empty;
+                
 
                 var methodDelegate = method.CreateDelegate(
                     Expression.GetFuncType(

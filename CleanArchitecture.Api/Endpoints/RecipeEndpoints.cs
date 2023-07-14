@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace CleanArchitecture.Api.Endpoints;
 
-public class RecipeEndpoints() : EndpointGroup("recipes")
+public class RecipeEndpoints() : V1EndpointGroup("recipes")
 {
     [HttpGet]
     public static async Task<IResult> GetRecipes(
-        [FromServices] ISender mediator)
+        [FromServices] ISender mediator,
+        [AsParameters] GetAllRecipesQuery query)
     {
-        return TypedResults.Ok(await mediator.Send(new GetAllRecipesQuery()));
+        return TypedResults.Ok(await mediator.Send(query));
     }
 
     [HttpGet("{id:int}")]
@@ -26,13 +27,7 @@ public class RecipeEndpoints() : EndpointGroup("recipes")
         [FromServices] ISender mediator,
         [FromBody] CreateRecipeCommand command)
     {
-        var result = await mediator.Send(command);
-
-        return result.Match<IResult>(
-            TypedResults.Ok,
-            TypedResults.BadRequest,
-            TypedResults.NotFound
-        );
+        return TypedResults.Ok(await mediator.Send(command));
     }
 
     [EnableRateLimiting("recipes")]
