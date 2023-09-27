@@ -14,13 +14,13 @@ public static class DependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+            cfg.AddOpenBehavior(typeof(FeatureFlagBehaviour<,>));
             cfg.AddOpenBehavior(typeof(IdempotentBehaviour<,>));
-            // cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             cfg.NotificationPublisher = new TaskWhenAllPublisher();
         });
-        
+
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
         return services;
     }
 }

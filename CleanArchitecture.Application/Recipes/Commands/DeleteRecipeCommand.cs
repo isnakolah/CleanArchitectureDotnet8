@@ -2,6 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
+[Feature(RecipeCrud)]
 public sealed record DeleteRecipeCommand(int Id) 
     : IRequest<RecipeVm>;
 

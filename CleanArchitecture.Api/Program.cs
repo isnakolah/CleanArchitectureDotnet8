@@ -1,6 +1,7 @@
 using CleanArchitecture.Api.Endpoints.Extensions;
 using CleanArchitecture.Application;
 using CleanArchitecture.Infrastructure;
+using CleanArchitecture.Infrastructure.FeatureFlags;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,5 +16,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.MapEndpoints();
+
+app.SeedFeatureFlags();
 
 app.Run();

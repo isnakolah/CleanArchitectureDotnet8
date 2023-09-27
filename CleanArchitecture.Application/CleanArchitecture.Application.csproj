@@ -23,6 +23,7 @@
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
         <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0-preview.4.23259.3" />
+        <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.0.0-preview" />
         <PackageReference Include="OneOf" Version="3.0.243" />
         <PackageReference Include="OneOf.SourceGenerator" Version="3.0.243" />
     </ItemGroup>
@@ -35,6 +36,8 @@
         <Using Include="AutoMapper" />
         <Using Include="AutoMapper.QueryableExtensions" />
         <Using Include="Microsoft.EntityFrameworkCore" />
+        <Using Include="CleanArchitecture.Application.FeatureFlags.FeatureNames" Static="true"/>
+        <Using Include="CleanArchitecture.Application.FeatureFlags"/>
     </ItemGroup>
     
     <ItemGroup>
