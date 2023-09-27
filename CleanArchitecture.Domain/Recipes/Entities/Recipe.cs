@@ -1,6 +1,6 @@
 namespace CleanArchitecture.Domain.Recipes.Entities;
 
-public record Recipe
+public sealed record Recipe
 {
     public int Id { get; set; }
     public required string Title { get; set; }

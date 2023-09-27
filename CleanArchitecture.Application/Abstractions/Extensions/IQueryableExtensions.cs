@@ -1,16 +1,9 @@
-using CleanArchitecture.Application.Common.Models;
+using CleanArchitecture.Application.Abstractions.Models;
 
 namespace CleanArchitecture.Application.Extensions;
 
 public static class IQueryableExtensions
 {
-    private static (int pageSize, int pageIndex) SanitizePaginationValues(int? pageIndex, int? pageSize)
-    {
-        pageSize = pageSize is null or < 1 ? 10 : pageSize;
-        pageIndex = pageIndex is null or < 1 ? 1 : pageIndex;
-
-        return (pageSize.Value, pageIndex.Value);
-    }
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int? pageIndex, int? pageSize)
     {
         (pageSize, pageIndex) = SanitizePaginationValues(pageIndex, pageSize);
@@ -39,5 +32,12 @@ public static class IQueryableExtensions
         var items = await query.Paginate(pageIndex, pageSize).ToArrayAsync(cancellationToken);
 
         return PaginatedResult<T>.Success(items, totalCount, pageIndex.Value, pageSize.Value);
+    }
+    private static (int pageSize, int pageIndex) SanitizePaginationValues(int? pageIndex, int? pageSize)
+    {
+        pageSize = pageSize is null or < 1 ? 10 : pageSize;
+        pageIndex = pageIndex is null or < 1 ? 1 : pageIndex;
+
+        return (pageSize.Value, pageIndex.Value);
     }
 }

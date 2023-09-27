@@ -19,4 +19,9 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         await base.SaveChangesAsync(cancellationToken);
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+    }
 }

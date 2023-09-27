@@ -9,7 +9,7 @@ public class RecipeEndpoints() : V1EndpointGroup("recipes")
     [HttpGet]
     public static async Task<IResult> GetRecipes(
         [FromServices] ISender mediator,
-        [AsParameters] GetAllRecipesQuery query)
+        [FromQuery] GetAllRecipesQuery query)
     {
         return TypedResults.Ok(await mediator.Send(query));
     }
@@ -25,9 +25,17 @@ public class RecipeEndpoints() : V1EndpointGroup("recipes")
     [HttpPost]
     public static async Task<IResult> CreateRecipe(
         [FromServices] ISender mediator,
+        [FromHeader(Name = "X-Idempotency-Key")] string requestId,
         [FromBody] CreateRecipeCommand command)
     {
-        return TypedResults.Ok(await mediator.Send(command));
+        if (!Guid.TryParse(requestId, out var parsedRequestId))
+        {
+            return TypedResults.BadRequest();
+        }
+        
+        await mediator.Send(command with {RequestId = parsedRequestId});
+        
+        return TypedResults.Created();
     }
 
     [EnableRateLimiting("recipes")]

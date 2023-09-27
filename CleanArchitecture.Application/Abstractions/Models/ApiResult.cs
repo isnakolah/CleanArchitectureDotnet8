@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Application.Common.Models;
+namespace CleanArchitecture.Application.Abstractions.Models;
 
 public interface IResult<T>
 {

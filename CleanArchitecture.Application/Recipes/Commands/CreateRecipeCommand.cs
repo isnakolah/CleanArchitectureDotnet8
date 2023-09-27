@@ -1,36 +1,32 @@
-using CleanArchitecture.Application.Common.Models;
-using CleanArchitecture.Application.Recipes.DTOs;
 using CleanArchitecture.Domain.Recipes.Entities;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
 public sealed record CreateRecipeCommand(
+        Guid RequestId,
         string Title,
         string Description,
         int PrepTime,
         int CookTime)
-    : IRequest<IResult<RecipeVm>>;
+    : IdempotentCommand(RequestId);
 
 public sealed class CreateRecipeCommandHandler(
-        IApplicationDbContext context,
-        IMapper mapper) 
-    : IRequestHandler<CreateRecipeCommand, IResult<RecipeVm>>
+        IApplicationDbContext context) 
+    : IRequestHandler<CreateRecipeCommand>
 {
-    public async Task<IResult<RecipeVm>> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateRecipeCommand command, CancellationToken cancellationToken)
     {
-        var entity = new Recipe
+        var recipe = new Recipe
         {
-            Title = request.Title,
-            Description = request.Description,
-            PrepTime = request.PrepTime,
-            CookTime = request.CookTime,
+            Title = command.Title,
+            Description = command.Description,
+            PrepTime = command.PrepTime,
+            CookTime = command.CookTime,
         };
 
-        context.Recipes.Add(entity);
+        context.Recipes.Add(recipe);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return IResult<RecipeVm>.Success(mapper.Map<RecipeVm>(entity));
     }
 }
 

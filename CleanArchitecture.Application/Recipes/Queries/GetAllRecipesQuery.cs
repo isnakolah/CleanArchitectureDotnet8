@@ -1,4 +1,4 @@
-using CleanArchitecture.Application.Common.Models;
+using CleanArchitecture.Application.Abstractions.Models;
 using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Queries;

@@ -1,4 +1,4 @@
-using CleanArchitecture.Application.Common.Models;
+using CleanArchitecture.Application.Abstractions.Models;
 
 namespace MediatR;
 
