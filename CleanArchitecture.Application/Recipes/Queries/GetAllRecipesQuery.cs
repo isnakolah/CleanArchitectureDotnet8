@@ -3,7 +3,11 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Queries;
 
-public sealed record GetAllRecipesQuery(string SearchTerm, int PageIndex, int PageSize)
+[Feature(Recipe)]
+public sealed record GetAllRecipesQuery(
+        string SearchTerm,
+        int PageIndex,
+        int PageSize)
     : IPaginatedRequest<RecipeVm>;
 
 public sealed class GetAllRecipesQueryHandler(

@@ -24,7 +24,7 @@ public static class SeedDatabaseWithFeatureFlags
         var existingFeatureFlags = dbContext.FeatureFlags.ToList();
 
         var featureNames = GetFeatureNames();
-        
+
         var newFeatureNames = featureNames
             .Where(featureName => existingFeatureFlags.All(featureFlag => featureFlag.FeatureName != featureName));
 
@@ -35,7 +35,7 @@ public static class SeedDatabaseWithFeatureFlags
     
     private static IEnumerable<string> GetFeatureNames()
     {
-        var featureNames = typeof(FeatureNames)
+        var featureNames = typeof(Feature)
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
             .Where(field => field is {IsLiteral: true, IsInitOnly: false})
             .Select(field => field.GetRawConstantValue() as string)

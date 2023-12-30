@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ADo/aVGEIW7MFl1NePUi2HDzt05Qk/FfOxPuamvSefyqkr8Q8IfnhWdBPO5fqJEtl9DqdwxpURMV8lvw0+JzaA==",
+  "dgSpecHash": "nrgJxdtNlwt+L7Xu0waira7J0OsVBk+GyWz+/31jcSPsxaYwxtQTyrvWgNkg0WqCleiGko9NFlKL8lMGV5enAw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DanielNakolah\\RiderProjects\\CleanArchitecture\\CleanArchitecture.Api.Tests.Integration\\CleanArchitecture.Api.Tests.Integration.csproj",
   "expectedPackageFiles": [
@@ -95,10 +95,7 @@
     "C:\\Users\\DanielNakolah\\.nuget\\packages\\xunit.core\\2.4.1\\xunit.core.2.4.1.nupkg.sha512",
     "C:\\Users\\DanielNakolah\\.nuget\\packages\\xunit.extensibility.core\\2.4.1\\xunit.extensibility.core.2.4.1.nupkg.sha512",
     "C:\\Users\\DanielNakolah\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
-    "C:\\Users\\DanielNakolah\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.3\\xunit.runner.visualstudio.2.4.3.nupkg.sha512",
-    "C:\\Users\\DanielNakolah\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.15\\microsoft.netcore.app.ref.6.0.15.nupkg.sha512",
-    "C:\\Users\\DanielNakolah\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.15\\microsoft.windowsdesktop.app.ref.6.0.15.nupkg.sha512",
-    "C:\\Users\\DanielNakolah\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.15\\microsoft.aspnetcore.app.ref.6.0.15.nupkg.sha512"
+    "C:\\Users\\DanielNakolah\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.3\\xunit.runner.visualstudio.2.4.3.nupkg.sha512"
   ],
   "logs": []
 }

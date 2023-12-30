@@ -4,8 +4,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LangVersion>preview</LangVersion>
-        <EnablePreviewFeatures>true</EnablePreviewFeatures>
     </PropertyGroup>
 
     <ItemGroup>
@@ -36,7 +34,7 @@
         <Using Include="AutoMapper" />
         <Using Include="AutoMapper.QueryableExtensions" />
         <Using Include="Microsoft.EntityFrameworkCore" />
-        <Using Include="CleanArchitecture.Application.FeatureFlags.FeatureNames" Static="true"/>
+        <Using Include="CleanArchitecture.Application.FeatureFlags.Feature" Static="true"/>
         <Using Include="CleanArchitecture.Application.FeatureFlags"/>
     </ItemGroup>
     

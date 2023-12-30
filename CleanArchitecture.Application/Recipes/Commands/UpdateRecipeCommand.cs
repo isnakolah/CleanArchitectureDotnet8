@@ -2,6 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
+[Feature(Recipe)]
 public sealed record UpdateRecipeCommand(
         int Id,
         string Title,

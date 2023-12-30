@@ -2,6 +2,7 @@ using CleanArchitecture.Domain.Recipes.Entities;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
+[Feature(Feature.Recipe)]
 public sealed record CreateRecipeCommand(
         Guid RequestId,
         string Title,
@@ -34,9 +35,9 @@ public class CreateRecipeCommandValidator : AbstractValidator<CreateRecipeComman
 {
     public CreateRecipeCommandValidator()
     {
-        RuleFor(x => x.Title).IsRequired();
-        RuleFor(x => x.Description).IsRequired();
-        RuleFor(x => x.PrepTime).GreaterThan(0).WithMessage("Prep time must be greater than 0");
-        RuleFor(x => x.CookTime).GreaterThan(0).WithMessage("Cook time must be greater than 0");
+        RuleFor(command => command.Title).IsRequired();
+        RuleFor(command => command.Description).IsRequired();
+        RuleFor(command => command.PrepTime).GreaterThan(0).WithMessage("Prep time must be greater than 0");
+        RuleFor(command => command.CookTime).GreaterThan(0).WithMessage("Cook time must be greater than 0");
     }
 }

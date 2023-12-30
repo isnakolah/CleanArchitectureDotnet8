@@ -2,7 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
-[Feature(RecipeCrud)]
+[Feature(Recipe)]
 public sealed record DeleteRecipeCommand(int Id) 
     : IRequest<RecipeVm>;
 
@@ -13,7 +13,7 @@ public sealed class DeleteRecipeCommandHandler(
 {
     public async Task<RecipeVm> Handle(DeleteRecipeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await context.Recipes.FindAsync(request.Id);
+        var entity = await context.Recipes.FindAsync([request.Id], cancellationToken);
 
         context.Recipes.Remove(entity!);
 
@@ -27,7 +27,7 @@ public class DeleteRecipeCommandValidator : AbstractValidator<DeleteRecipeComman
 {
     public DeleteRecipeCommandValidator(IApplicationDbContext context)
     {
-        RuleFor(x => x.Id)
+        RuleFor(command => command.Id)
             .MustExistAsync(x => context.Recipes.ExistsAsync(x))
             .WithMessage("Recipe with id {PropertyValue} does not exist");
     }

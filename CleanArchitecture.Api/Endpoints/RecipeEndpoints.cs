@@ -9,7 +9,7 @@ public class RecipeEndpoints() : V1EndpointGroup("recipes")
     [HttpGet]
     public static async Task<IResult> GetRecipes(
         [FromServices] ISender mediator,
-        [FromQuery] GetAllRecipesQuery query)
+        [FromBody] GetAllRecipesQuery query)
     {
         return TypedResults.Ok(await mediator.Send(query));
     }

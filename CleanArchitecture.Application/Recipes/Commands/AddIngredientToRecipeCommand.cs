@@ -3,6 +3,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
+[Feature(Recipe)]
 public sealed record AddIngredientToRecipeCommand(
         int RecipeId,
         int IngredientId,

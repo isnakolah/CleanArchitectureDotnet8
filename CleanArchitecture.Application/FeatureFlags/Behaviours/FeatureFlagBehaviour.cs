@@ -1,27 +1,34 @@
+using System.Reflection;
 using Microsoft.Extensions.Logging;
-using Microsoft.FeatureManagement;
 
 namespace CleanArchitecture.Application.FeatureFlags;
 
 internal sealed class FeatureFlagBehaviour<TRequest, TResponse>(
         ILogger<FeatureFlagBehaviour<TRequest, TResponse>> logger,
-        IFeatureManager featureManager)
+        IFeatureFlagService featureFlagService)
     : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var isFeatureEnabled = await featureManager.IsEnabledAsync(typeof(TRequest).Name, cancellationToken);
-        
-        if (!isFeatureEnabled)
+        var featureName = typeof(TRequest).GetCustomAttribute<FeatureAttribute>()?.Name;
+
+        if (string.IsNullOrWhiteSpace(featureName))
         {
-            logger.LogWarning("Feature {FeatureName} is disabled", typeof(TRequest).Name);
-            
-            return default!;
+            return await next();
         }
 
-        var response = await next();
+        var isFeatureEnabled = await featureFlagService.IsEnabledAsync(featureName, cancellationToken);
 
-        return response;
+        if (isFeatureEnabled)
+        {
+            return await next();
+        }
+
+        logger.LogWarning("Feature {FeatureName} is disabled", typeof(TRequest).Name);
+            
+        throw new FeatureDisabledException(featureName);
     }
 }
+
+public sealed class FeatureDisabledException(string featureName) : Exception($"Feature {featureName} is disabled");

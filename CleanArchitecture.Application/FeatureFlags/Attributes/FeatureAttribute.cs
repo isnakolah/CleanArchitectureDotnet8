@@ -1,9 +1,11 @@
 namespace CleanArchitecture.Application.FeatureFlags;
 
 [AttributeUsage(AttributeTargets.Class)]
-internal sealed class FeatureAttribute(
-        string name) 
+public class FeatureAttribute(
+        string name,
+        string description = "") 
     : Attribute
 {
     public string Name = name;
+    public string Description = description;
 }

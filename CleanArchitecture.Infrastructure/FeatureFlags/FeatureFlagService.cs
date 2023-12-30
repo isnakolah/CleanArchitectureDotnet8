@@ -2,6 +2,7 @@ using CleanArchitecture.Application.FeatureFlags;
 using CleanArchitecture.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.FeatureManagement;
 
 namespace CleanArchitecture.Infrastructure.FeatureFlags;
 
