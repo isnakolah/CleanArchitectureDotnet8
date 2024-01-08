@@ -35,7 +35,14 @@ public static class SeedDatabaseWithFeatureFlags
     
     private static IEnumerable<string> GetFeatureNames()
     {
-        var featureNames = typeof(Feature)
+        var feat = typeof(Features).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+            .Select(property => property.GetValue(null))
+            .OfType<Feature>()
+            .SelectMany(feature => feature.SubFeatures)
+            .Select(subFeature => subFeature.Name)
+            .Where(subFeatureName => !string.IsNullOrWhiteSpace(subFeatureName));
+
+        var featureNames = typeof(Features)
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
             .Where(field => field is {IsLiteral: true, IsInitOnly: false})
             .Select(field => field.GetRawConstantValue() as string)

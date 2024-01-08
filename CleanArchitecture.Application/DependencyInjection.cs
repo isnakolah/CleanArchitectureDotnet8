@@ -14,7 +14,7 @@ public static class DependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
-            cfg.AddOpenBehavior(typeof(FeatureFlagBehaviour<,>));
+            // cfg.AddOpenBehavior(typeof(FeatureFlagBehaviour<,>));
             cfg.AddOpenBehavior(typeof(IdempotentBehaviour<,>));
             cfg.NotificationPublisher = new TaskWhenAllPublisher();
         });

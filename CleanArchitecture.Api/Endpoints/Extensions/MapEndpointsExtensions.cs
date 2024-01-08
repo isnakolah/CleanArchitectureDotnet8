@@ -11,7 +11,7 @@ internal static class MapEndpointsExtensions
         // get all the types that implement BaseEndpoint
         var endpointGroupTypes = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(t => t.IsAssignableTo(typeof(EndpointGroup)) && !t.IsAbstract)
+            .Where(t => t.IsAssignableTo(typeof(BaseEndpointGroup)) && !t.IsAbstract)
             .ToImmutableArray();
 
         foreach (var endpointGroupType in endpointGroupTypes)
@@ -26,6 +26,7 @@ internal static class MapEndpointsExtensions
             // get all the methods that have an Http attribute
             var methods = endpointGroupType
                 .GetMethods()
+                .Where(m => m is {IsPublic: true})
                 .Where(m => m
                     .GetCustomAttributes()
                     .Any(a => a.GetType().Name.StartsWith("Http")))
@@ -56,8 +57,25 @@ internal static class MapEndpointsExtensions
                             .ToArray()
                     )
                 );
+                
+                var summaryAttribute = method.GetCustomAttributes()
+                    .FirstOrDefault(a => a.GetType().Name == "EndpointSummaryAttribute");
+                
+                var summary = summaryAttribute?.GetType()
+                    .GetProperties()
+                    .First(x => x.Name == "Summary")
+                    .GetValue(summaryAttribute)
+                    ?.ToString() ?? string.Empty;
 
-                app.MapMethods($"/{groupName}/{route}", new[] {verb}, methodDelegate);
+                // ReSharper disable once RouteTemplates.SyntaxError
+                app
+                    .MapMethods($"/{groupName}/{route}", new[] {verb}, methodDelegate)
+                    .WithOpenApi(operation =>
+                    {
+                        operation.Summary = summary;
+
+                        return operation;
+                    });
             }
         }
 

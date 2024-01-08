@@ -3,7 +3,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Queries;
 
-[Feature(Recipe)]
+[RecipeGetFeature]
 public sealed record GetAllRecipesQuery(
         string SearchTerm,
         int PageIndex,

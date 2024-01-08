@@ -2,7 +2,7 @@ namespace CleanArchitecture.Infrastructure.Idempotency;
 
 internal sealed class IdempotentRequest
 {
-    public Guid Id { get; set; }
-    public required string Name { get; set; }
-    public DateTime CreatedOnUtc { get; set; }
+    public required Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required DateTime CreatedOnUtc { get; init; }
 }

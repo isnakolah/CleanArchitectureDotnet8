@@ -2,7 +2,7 @@ using CleanArchitecture.Domain.Recipes.Entities;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
-[Feature(Feature.Recipe)]
+[RecipeCreateFeature]
 public sealed record CreateRecipeCommand(
         Guid RequestId,
         string Title,
@@ -17,13 +17,11 @@ public sealed class CreateRecipeCommandHandler(
 {
     public async Task Handle(CreateRecipeCommand command, CancellationToken cancellationToken)
     {
-        var recipe = new Recipe
-        {
-            Title = command.Title,
-            Description = command.Description,
-            PrepTime = command.PrepTime,
-            CookTime = command.CookTime,
-        };
+        var recipe = Recipe.Create(
+            command.Title,
+            command.Description,
+            command.PrepTime,
+            command.CookTime);
 
         context.Recipes.Add(recipe);
 

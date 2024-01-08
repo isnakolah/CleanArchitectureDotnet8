@@ -28,5 +28,9 @@
         <Using Include="CleanArchitecture.Api.Endpoints.Common" />
         <Using Include="Microsoft.AspNetCore.Mvc" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Queries;
 
-[Feature(Recipe)]
+[RecipeGetFeature]
 public record GetRecipeByIdQuery(int Id)
     : IRequest<RecipeVm>;
 

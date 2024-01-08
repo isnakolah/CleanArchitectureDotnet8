@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
+        <ProjectReference Include="..\CleanArchitecture.SourceGenerator\CleanArchitecture.SourceGenerator.csproj" />
     </ItemGroup>
     
     <ItemGroup>
@@ -36,6 +37,7 @@
         <Using Include="Microsoft.EntityFrameworkCore" />
         <Using Include="CleanArchitecture.Application.FeatureFlags.Feature" Static="true"/>
         <Using Include="CleanArchitecture.Application.FeatureFlags"/>
+        <Using Include="CleanArchitecture.Application.FeatureFlags.RecipesFeature" Static="true"/>
     </ItemGroup>
     
     <ItemGroup>

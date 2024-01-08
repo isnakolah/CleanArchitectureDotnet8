@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\DanielNakolah\\RiderProjects\\CleanArchitecture\\CleanArchitecture.Api\\wwwroot\\openai.schema.json",
+      "PackagePath": "staticwebassets\\openai.schema.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CleanArchitecture.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CleanArchitecture.Api.props",
+      "PackagePath": "build\\CleanArchitecture.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CleanArchitecture.Api.props",
+      "PackagePath": "buildMultiTargeting\\CleanArchitecture.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CleanArchitecture.Api.props",
+      "PackagePath": "buildTransitive\\CleanArchitecture.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

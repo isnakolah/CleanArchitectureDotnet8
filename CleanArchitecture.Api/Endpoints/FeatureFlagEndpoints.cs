@@ -1,13 +1,15 @@
- using CleanArchitecture.Application.FeatureFlags;
+using System.ComponentModel;
+using CleanArchitecture.Application.FeatureFlags;
 
 namespace CleanArchitecture.Api.Endpoints;
 
-public class FeatureFlagEndpoints() : V1EndpointGroup("feature-flags")
+public sealed class FeatureFlagEndpoints() : EndpointGroup("feature-flags")
 {
     [HttpPost("{featureFlagId:guid}/enable")]
+    [EndpointSummary("Enables a feature flag")]
     public static async Task<IResult> EnableFeatureFlag(
         [FromServices] ISender mediator,
-        [FromRoute] Guid featureFlagId)
+        [FromRoute, Description("Feature flag id you want to enable")] Guid featureFlagId)
     {
         await mediator.Send(new ToggleFeatureFlagCommand(featureFlagId, true));
 
@@ -15,9 +17,10 @@ public class FeatureFlagEndpoints() : V1EndpointGroup("feature-flags")
     }
     
     [HttpPost("{featureFlagId:guid}/disable")]
+    [EndpointSummary("Disables a feature flag")]
     public static async Task<IResult> DisableFeatureFlag(
         [FromServices] ISender mediator,
-        [FromRoute] Guid featureFlagId)
+        [FromRoute, Description("Feature flag id you want to disable")] Guid featureFlagId)
     {
         await mediator.Send(new ToggleFeatureFlagCommand(featureFlagId, false));
 
@@ -25,6 +28,7 @@ public class FeatureFlagEndpoints() : V1EndpointGroup("feature-flags")
     }
     
     [HttpGet]
+    [EndpointSummary("Gets all feature flags")]
     public static async Task<IResult> GetFeatureFlags(
         [FromServices] ISender mediator)
     {

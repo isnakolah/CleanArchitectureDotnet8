@@ -23,4 +23,28 @@ public static class IDbSetExtensions
     {
         return await dbSet.AnyAsync(predicate, cancellationToken);
     }
+    
+    public static async Task<T?> FindByIdAsync<T>(this DbSet<T> dbSet, int id, CancellationToken cancellationToken) 
+        where T : class
+    {
+        return await dbSet.FindAsync([id], cancellationToken);
+    }
+    
+    public static async Task<T?> FindByIdAsync<T>(this DbSet<T> dbSet, int id) 
+        where T : class
+    {
+        return await dbSet.FindAsync([id]);
+    }
+    
+    public static async Task<T?> FindByIdAsync<T>(this DbSet<T> dbSet, Guid id, CancellationToken cancellationToken) 
+        where T : class
+    {
+        return await dbSet.FindAsync([id], cancellationToken);
+    }
+    
+    public static async Task<T?> FindByIdAsync<T>(this DbSet<T> dbSet, Guid id) 
+        where T : class
+    {
+        return await dbSet.FindAsync([id]);
+    }
 }

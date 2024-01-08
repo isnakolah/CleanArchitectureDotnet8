@@ -3,7 +3,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
-[Feature(Recipe)]
+[RecipeUpdateFeature]
 public sealed record AddIngredientToRecipeCommand(
         int RecipeId,
         int IngredientId,
@@ -17,19 +17,19 @@ public sealed class AddIngredientToRecipeCommandHandler(
 {
     public async Task<IResult<RecipeIngredientVm>> Handle(AddIngredientToRecipeCommand request, CancellationToken cancellationToken)
     {
-        var recipeEntity = await context.Recipes
+        var recipe = await context.Recipes
             .Include(recipe => recipe.Ingredients)
                 .ThenInclude(recipeIngredient => recipeIngredient.Ingredient)
             .FirstAsync(recipe => recipe.Id == request.RecipeId, cancellationToken);
 
-        var ingredientEntity = await context.Ingredients
+        var ingredient = await context.Ingredients
               .FirstAsync(ingredient => ingredient.Id == request.IngredientId, cancellationToken);
 
-        recipeEntity.AddIngredient(ingredientEntity, request.Quantity);
+        recipe.AddIngredient(ingredient, request.Quantity);
 
         await context.SaveChangesAsync(cancellationToken);
 
-        var recipeIngredientVm = mapper.Map<RecipeIngredientVm>(recipeEntity.Ingredients.Last());
+        var recipeIngredientVm = mapper.Map<RecipeIngredientVm>(recipe.Ingredients.Last());
 
         return IResult<RecipeIngredientVm>.Success(recipeIngredientVm);
     }
@@ -40,11 +40,11 @@ public class AddIngredientToRecipeCommandValidator
 {
     public AddIngredientToRecipeCommandValidator(IApplicationDbContext context)
     {
-        RuleFor(x => x.Quantity)
+        RuleFor(command => command.Quantity)
             .GreaterThan(0).WithMessage("Quantity must be greater than 0");
 
-        RuleFor(x => x.RecipeId)
-            .MustExistAsync(x => context.Recipes.ExistsAsync(x)).WithMessage("Recipe with id {PropertyValue} does not exist");
+        RuleFor(command => command.RecipeId)
+            .MustExistAsync(recipeId => context.Recipes.ExistsAsync(recipeId)).WithMessage("Recipe with id {PropertyValue} does not exist");
 
         RuleFor(x => x.IngredientId)
             .MustExistAsync(x => context.Ingredients.ExistsAsync(x)).WithMessage("Ingredient with id {PropertyValue} does not exist");

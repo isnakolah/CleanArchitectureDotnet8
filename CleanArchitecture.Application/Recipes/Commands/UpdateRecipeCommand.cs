@@ -2,7 +2,7 @@ using CleanArchitecture.Application.Recipes.DTOs;
 
 namespace CleanArchitecture.Application.Recipes.Commands;
 
-[Feature(Recipe)]
+[RecipeUpdateFeature]
 public sealed record UpdateRecipeCommand(
         int Id,
         string Title,
@@ -18,12 +18,13 @@ public sealed class UpdateRecipeCommandHandler(
 {
     public async Task<RecipeVm> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
     {
-        var recipe = await context.Recipes.FindAsync(request.Id);
-
-        recipe!.Title = request.Title;
-        recipe.Description = request.Description;
-        recipe.PrepTime = request.PrepTime;
-        recipe.CookTime = request.CookTime;
+        var recipe = await context.Recipes.FindByIdAsync(request.Id, cancellationToken);
+        
+        recipe!.Update(
+            request.Title,
+            request.Description,
+            request.PrepTime,
+            request.CookTime);
 
         await context.SaveChangesAsync(cancellationToken);
 
@@ -35,21 +36,21 @@ public class UpdateRecipeCommandValidator : AbstractValidator<UpdateRecipeComman
 {
     public UpdateRecipeCommandValidator(IApplicationDbContext context)
     {
-        RuleFor(x => x.Title).IsRequired();
-        When(x => string.IsNullOrWhiteSpace(x.Title), () =>
+        RuleFor(command => command.Title).IsRequired();
+        When(command => string.IsNullOrWhiteSpace(command.Title), () =>
         {
-            RuleFor(x => x.Title)
+            RuleFor(command => command.Title)
                 .MaximumLength(2000)
                 .WithMessage("`{PropertyTitle}` must not exceed 80 characters");
-            RuleFor(x => x.Title)
-                .MustExistAsync(title => context.Recipes.ExistsAsync(x => x.Title == title))
+            RuleFor(command => command.Title)
+                .MustExistAsync(title => context.Recipes.ExistsAsync(recipe => recipe.Title == title))
                 .WithMessage("Recipe with title `{PropertyValue}` already exists");
         });
-        RuleFor(x => x.Description).IsRequired();
-        RuleFor(x => x.PrepTime).IsRequired();
-        RuleFor(x => x.PrepTime)
+        RuleFor(command => command.Description).IsRequired();
+        RuleFor(command => command.PrepTime).IsRequired();
+        RuleFor(command => command.PrepTime)
             .LessThanOrEqualTo(0)
             .WithMessage("`{PropertyTitle}` must be greater than or equal to 0")
-            .When(x => x.PrepTime < 0);
+            .When(command => command.PrepTime < 0);
     }
 }
