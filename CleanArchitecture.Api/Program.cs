@@ -1,6 +1,7 @@
 using CleanArchitecture.Api;
 using CleanArchitecture.Api.Endpoints.Extensions;
 using CleanArchitecture.Application;
+using CleanArchitecture.Application.FeatureFlags;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.FeatureFlags;
 using Microsoft.OpenApi.Models;
@@ -14,11 +15,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddServer(new OpenApiServer
-    {
-        Url = url,
-        Description = "Local port forwarded to ngrok"
-    });
+    // c.AddServer(new OpenApiServer
+    // {
+    //     Url = url,
+    //     Description = "Local port forwarded to ngrok"
+    // });
     c.OperationFilter<CustomOperationIdFilter>();
 });
 builder.Services.AddCors();
@@ -29,9 +30,12 @@ app.UseCors(policy => policy
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowAnyOrigin());
-
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseStaticFiles();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanArchitecture.Api v1");
+    c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+}).UseSwagger();
 app.UseHttpsRedirection();
 app.MapEndpoints();
 
